@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Train Scheduler</title>
+
+    <!-- materialize-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h1>Train Schedules</h1>
+        </div>
+        <div>
+            <table id="schedule">
+                <thead>
+                    <tr>
+                        <th>Train Name</th>
+                        <th>Destination</th>
+                        <th>First Departure</th>
+                        <th>Frequency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+                </table>
+        </div>
+    </div>
+    <div class="container">
+        <form>
+            <div class="input-field">
+                <label for="line">Train Name</label>
+                <input type="text" name="line" id="line" />
+            </div>
+
+            <div class="input-field">
+                <label for="destination">Destination</label>
+                <input type="text" name="dest" id="dest" />
+            </div>
+
+            <div class="input-field">
+                <label for="first">First Departure Time</label>
+                <input type="text" class="timepicker">
+            </div>
+            <div class="input-field">
+                <label for="freq">Departure Frequency</label>
+                <input type="number" name="freq" id="freq" />
+            </div>
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                <i class="material-icons right"></i>
+            </button>
+
+        </form>
+    </div>
+
+    <script src="/app.js"></script>
+    <script type="text/javascript">document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.timepicker');
+            var options = "defaultTime";
+            var instances = M.Timepicker.init(elems, options);
+        });
+    </script>
+</body>
+
+</html>
