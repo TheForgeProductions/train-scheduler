@@ -9,6 +9,7 @@
 
     <!-- materialize-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 </head>
@@ -28,10 +29,10 @@
                         <th>Frequency</th>
                     </tr>
                 </thead>
-                <tbody>
-                    
+                <tbody id="schedule">
+                    <!-- schedule gets put here from firebase as new rows per entry in db -->
                 </tbody>
-                </table>
+            </table>
         </div>
     </div>
     <div class="container">
@@ -48,26 +49,79 @@
 
             <div class="input-field">
                 <label for="first">First Departure Time</label>
-                <input type="text" class="timepicker">
+                <input type="time" name="time" id="time">
             </div>
             <div class="input-field">
                 <label for="freq">Departure Frequency</label>
                 <input type="number" name="freq" id="freq" />
             </div>
 
-            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <button class="btn waves-effect waves-light" type="submit" name="action" id="submit">Submit
                 <i class="material-icons right"></i>
             </button>
 
         </form>
     </div>
 
-    <script src="/app.js"></script>
-    <script type="text/javascript">document.addEventListener('DOMContentLoaded', function () {
+
+    <!-- <script type="text/javascript">document.addEventListener('DOMContentLoaded', function () {
             var elems = document.querySelectorAll('.timepicker');
             var options = "defaultTime";
-            var instances = M.Timepicker.init(elems, options);
-        });
+            var instances = M.Timepicker.init(elems, options); -->
+    });
+    </script>
+    <script src="firebaseConfig.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+
+
+    <script type="text/javascript">
+        // var instance = M.Timepicker.getInstance(time);
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+        var schedule = document.getElementById('schedule');
+
+
+
+        var ref = database.ref();
+        console.log(ref);
+        var trains = [];
+        ref.orderByChild("dateAdded").on("child_added", function (snapshot) {
+            let data = snapshot.val();
+            console.log(data);
+            data.forEach(train => {
+                let row = document.createElement('tr');
+                let frequency = train.frequency;
+                console.log(train);
+                // row.innerHTML = `<td>${train.name}</td><td>${train.destination}</td>${train.time}</td><td>${train.freq}</td>`;
+                // schedule.appendChild(row);
+                ;
+            }
+        );})
+        // console.log(trains);
+        // trains.forEach(train => {
+        //     let row = document.createElement('tr');
+        //     row.innerHTML(`<td>${this.name}</td><td>${this.data.destination}</td>${this.data.time}</td><td>${this.data.freq}</td>`)
+        //     schedule.appendChild(row);
+        //     console.log(row);
+        // });
+
+
+        let submit = document.getElementById("submit");
+        submit.addEventListener('click', () => {
+
+            let newTrain = {
+                name: document.getElementById("line").val,
+                destination: document.getElementById("dest").val,
+                time: document.getElementById('time').val,
+                frequency: document.getElementById("freq").val
+            }
+
+
+            ref.push(newTrain);
+
+        })
+
+
     </script>
 </body>
 
